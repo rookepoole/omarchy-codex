@@ -64,7 +64,7 @@ if find "${root}" -type f \( -name '*.deb' -o -name '*.pkg.tar.*' \) -print -qui
   fail 'proprietary package payload present in source tree'
 fi
 
-checkout_sha='11d5960a326750d5838078e36cf38b85af677262'
+checkout_sha='3d3c42e5aac5ba805825da76410c181273ba90b1'
 check_checkout_workflow() {
   local workflow="$1"
   awk -v expected="actions/checkout@${checkout_sha}" '
