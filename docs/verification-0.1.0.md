@@ -37,3 +37,7 @@ The first repeat-install rehearsal exposed an exact-package detection bug caused
 ## Claim boundary
 
 This establishes a reproducible Arch package and a successful contained graphical startup. It does not yet establish interactive OAuth, Hyprland window behavior, notifications, file permissions, or long-session stability on a physical Omarchy machine. Those require the real-machine smoke test after installation.
+
+## Later contradictory evidence
+
+The first physical Omarchy launch after 0.1.1 reported repeated Mesa divide-by-zero failures and crashed the app. The contained Xvfb startup therefore did not establish safe XWayland GPU behavior on physical hardware. Version 0.1.2 supersedes the automatic-renderer decision with native Wayland on Omarchy; that repair still requires physical-machine confirmation.

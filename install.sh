@@ -3,7 +3,7 @@ set -euo pipefail
 
 REPOSITORY="https://github.com/rookepoole/omarchy-codex.git"
 SOURCE_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/omarchy-codex/source"
-PROJECT_VERSION=0.1.1
+PROJECT_VERSION=0.1.2
 
 die() {
   printf 'omarchy-codex install: %s\n' "$*" >&2
@@ -63,6 +63,14 @@ if package_installed_exactly openai-codex-desktop; then
 fi
 if package_installed_exactly chatgpt; then
   die "a conflicting chatgpt package is installed; remove it before installing omarchy-codex"
+fi
+if ! package_installed_exactly omarchy-codex; then
+  existing_chatgpt="$(command -v chatgpt 2>/dev/null || true)"
+  if [[ -n "${existing_chatgpt}" || -e /usr/lib/chatgpt/ChatGPT ]]; then
+    existing_chatgpt="${existing_chatgpt:-/usr/lib/chatgpt/ChatGPT}"
+    owner="$(pacman -Qo "${existing_chatgpt}" 2>/dev/null || printf 'not owned by pacman')"
+    die "existing ChatGPT installation detected at ${existing_chatgpt} (${owner}); refusing to replace it"
+  fi
 fi
 
 project_dir="$(resolve_source)"

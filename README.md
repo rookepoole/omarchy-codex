@@ -21,7 +21,7 @@ The first build downloads about 390 MB from OpenAI and installs about 1.3 GB. Th
 - Installs OpenAI's graphical app as the pacman package `omarchy-codex`.
 - Replaces Omarchy's default `Super + Shift + A` ChatGPT web shortcut with the desktop app.
 - Adds a native **Codex** application entry.
-- Defaults to OpenAI's automatic renderer, which currently means XWayland when available.
+- Uses native Wayland automatically on Omarchy to avoid current Mesa/XWayland GPU crashes.
 - Preserves ChatGPT sign-in data across upgrades and normal uninstall.
 
 It does **not** install Codex CLI, request an API key, modify `~/.codex/auth.json`, or commit/redistribute OpenAI's application binary.
@@ -34,19 +34,27 @@ omarchy-codex doctor
 omarchy-codex version
 ```
 
-Native Wayland is experimental upstream. Opt in only if you want to test it:
+Force native Wayland explicitly with:
 
 ```bash
 omarchy-codex rendering wayland
 ```
 
-Return to the supported default behavior with:
+Return to Omarchy's automatic behavior with:
 
 ```bash
 omarchy-codex rendering auto
 ```
 
 Fully quit and reopen Codex after changing rendering mode.
+
+If a previous build crashes during GPU initialization, recover without opening the app first:
+
+```bash
+omarchy-codex rendering wayland
+pkill -f '/usr/lib/chatgpt/ChatGPT' 2>/dev/null || true
+omarchy-codex launch
+```
 
 Uninstall while preserving sign-in data:
 

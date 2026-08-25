@@ -29,6 +29,7 @@ grep -Fq '1bba62a6dbd2d49975c62850d8eddaad605da193557b194982225e56b1941891' "${r
 grep -Fq 'a538eab08ff9cb50d8c83471d3b491dd3c44a79953a1f8a80ec54a2bdb25a13a' "${root}/PKGBUILD" || fail 'ARM64 checksum'
 grep -Fq 'Exec=omarchy-codex launch %U' "${root}/chatgpt.desktop" || fail 'graphical desktop entry'
 grep -Fq 'Terminal=false' "${root}/chatgpt.desktop" || fail 'desktop entry must not open a terminal'
+grep -Fq 'existing ChatGPT installation detected' "${root}/install.sh" || fail 'existing-app replacement guard'
 
 if grep -RniE --exclude='test-source.sh' \
   '(OPENAI_API_KEY|--with-api-key|api_key[[:space:]]*=)' "${root}"; then

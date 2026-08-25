@@ -22,8 +22,13 @@ run_launcher() {
     "${root}/omarchy-codex" launch "$@"
 }
 
-run_launcher 'codex://login/callback?value=hello world'
+XDG_SESSION_TYPE=x11 WAYLAND_DISPLAY= run_launcher 'codex://login/callback?value=hello world'
 [[ "$(<"${args_log}")" == 'codex://login/callback?value=hello world' ]]
+
+WAYLAND_DISPLAY=wayland-1 run_launcher project
+mapfile -t args <"${args_log}"
+[[ "${args[0]}" == --ozone-platform=wayland ]]
+[[ "${args[1]}" == project ]]
 
 mkdir -p "${test_root}/config/omarchy-codex"
 printf 'wayland\n' >"${test_root}/config/omarchy-codex/rendering"

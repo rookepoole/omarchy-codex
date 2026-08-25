@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.2 — 2026-08-25
+
+- Switch automatic Omarchy sessions to native Wayland after real-machine Mesa/XWayland crashes.
+- Add a hard preflight guard against replacing an independently installed ChatGPT application.
+- Keep XWayland available only as an explicit diagnostic mode.
+
 ## 0.1.1 — 2026-08-25
 
 - Fix the published ShellCheck gate by replacing an ambiguous conditional chain.

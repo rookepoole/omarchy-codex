@@ -6,7 +6,7 @@ CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME:-}/.config}"
 MODE_FILE="${CONFIG_HOME}/omarchy-codex/rendering"
 SOURCE_HOME="${XDG_DATA_HOME:-${HOME:-}/.local/share}/omarchy-codex/source"
 REPOSITORY="https://github.com/rookepoole/omarchy-codex.git"
-INTEGRATION_VERSION=0.1.1
+INTEGRATION_VERSION=0.1.2
 
 die() {
   printf 'omarchy-codex: %s\n' "$*" >&2
@@ -31,6 +31,14 @@ launch() {
   local -a flags=()
   mode="$(rendering_mode)"
   case "${mode}" in
+    auto)
+      # Omarchy is Wayland-native. Current Mesa 26.2 reports show the app's
+      # XWayland/GLX GPU process crashing or hanging the display, so avoid that
+      # path whenever a Wayland socket is available.
+      if [[ "${XDG_SESSION_TYPE:-}" == wayland || -n "${WAYLAND_DISPLAY:-}" ]]; then
+        flags+=(--ozone-platform=wayland)
+      fi
+      ;;
     wayland) flags+=(--ozone-platform=wayland) ;;
     xwayland) flags+=(--ozone-platform=x11) ;;
   esac
