@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3 — 2026-08-25
+
+- Add persistent device-scale control for oversized native-Wayland windows.
+- Report the configured display scale in `omarchy-codex doctor`.
+- Preserve automatic scaling by default instead of forcing one value on every display.
+
 ## 0.1.2 — 2026-08-25
 
 - Switch automatic Omarchy sessions to native Wayland after real-machine Mesa/XWayland crashes.

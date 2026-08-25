@@ -48,6 +48,18 @@ omarchy-codex rendering auto
 
 Fully quit and reopen Codex after changing rendering mode.
 
+If the app says 100% zoom but the entire native-Wayland interface is oversized, set
+the Electron device scale to 1 without returning to XWayland:
+
+```bash
+omarchy-codex scale 1
+pkill -f '/usr/lib/chatgpt/ChatGPT' 2>/dev/null || true
+omarchy-codex launch
+```
+
+Other fractional values such as `1.25` and `1.5` are supported. Restore automatic
+display scaling with `omarchy-codex scale auto`.
+
 If a previous build crashes during GPU initialization, recover without opening the app first:
 
 ```bash
