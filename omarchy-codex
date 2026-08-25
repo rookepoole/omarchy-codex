@@ -7,7 +7,7 @@ MODE_FILE="${CONFIG_HOME}/omarchy-codex/rendering"
 SCALE_FILE="${CONFIG_HOME}/omarchy-codex/scale"
 SOURCE_HOME="${XDG_DATA_HOME:-${HOME:-}/.local/share}/omarchy-codex/source"
 REPOSITORY="https://github.com/rookepoole/omarchy-codex.git"
-INTEGRATION_VERSION=0.1.3
+INTEGRATION_VERSION=0.1.4
 
 die() {
   printf 'omarchy-codex: %s\n' "$*" >&2
@@ -40,6 +40,21 @@ display_scale() {
   fi
 }
 
+percent_encode() {
+  local LC_ALL=C input="$1" output='' character encoded index
+  for ((index = 0; index < ${#input}; index++)); do
+    character="${input:index:1}"
+    case "${character}" in
+      [a-zA-Z0-9.~_-]) output+="${character}" ;;
+      *)
+        printf -v encoded '%%%02X' "'${character}"
+        output+="${encoded}"
+        ;;
+    esac
+  done
+  printf '%s\n' "${output}"
+}
+
 launch() {
   [[ -x "${APP_BINARY}" ]] || die "graphical app is not installed at ${APP_BINARY}"
 
@@ -65,6 +80,17 @@ launch() {
   fi
 
   exec "${APP_BINARY}" "${flags[@]}" "$@"
+}
+
+open_project() {
+  [[ $# -le 1 ]] || die "usage: omarchy-codex open [DIRECTORY]"
+  local requested="${1:-.}" resolved encoded
+  [[ -d "${requested}" ]] || die "project directory does not exist: ${requested}"
+  resolved="$(realpath -- "${requested}")"
+  [[ "${resolved}" != *$'\n'* && "${resolved}" != *$'\r'* ]] ||
+    die "project paths containing line breaks are not supported"
+  encoded="$(percent_encode "${resolved}")"
+  launch "codex://new?path=${encoded}"
 }
 
 set_rendering() {
@@ -95,6 +121,7 @@ set_scale() {
 
 doctor() {
   local failed=0
+  local bindings_file="${HOME:-}/.config/hypr/bindings.lua"
   printf 'Omarchy Codex doctor\n'
   if [[ -x "${APP_BINARY}" ]]; then
     printf 'PASS graphical app: %s\n' "${APP_BINARY}"
@@ -116,6 +143,29 @@ doctor() {
   printf 'INFO rendering: %s\n' "$(rendering_mode)"
   printf 'INFO display scale: %s\n' "$(display_scale)"
   printf 'INFO authentication: ChatGPT browser sign-in; no API key is configured by this package\n'
+  if command -v busctl >/dev/null 2>&1 &&
+    busctl --user --quiet call org.freedesktop.secrets /org/freedesktop/secrets \
+      org.freedesktop.DBus.Peer Ping >/dev/null 2>&1; then
+    printf 'PASS Secret Service available for protected credential storage\n'
+  else
+    printf 'WARN Secret Service was not reachable; sign-in persistence needs a logout/relogin check\n'
+  fi
+  if [[ -f "${bindings_file}" ]] &&
+    grep -Fq 'o.bind("SUPER + SHIFT + A", "Codex", { launch = "omarchy-codex launch" })' \
+      "${bindings_file}"; then
+    printf 'PASS Super+Shift+A graphical shortcut installed\n'
+  else
+    printf 'WARN managed Super+Shift+A shortcut was not found\n'
+  fi
+  if command -v hyprctl >/dev/null 2>&1 && [[ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}" ]]; then
+    local hypr_errors
+    hypr_errors="$(hyprctl configerrors 2>&1 || true)"
+    if [[ -z "${hypr_errors}" ]]; then
+      printf 'PASS Hyprland reports no configuration errors\n'
+    else
+      printf 'WARN Hyprland configuration errors are present:\n%s\n' "${hypr_errors}"
+    fi
+  fi
   if command -v ldd >/dev/null 2>&1 && [[ -x "${APP_BINARY}" ]]; then
     if ldd "${APP_BINARY}" 2>/dev/null | grep -q 'not found'; then
       printf 'FAIL shared library dependency missing\n'
@@ -155,17 +205,22 @@ show_version() {
 }
 
 if [[ "$(basename "$0")" == chatgpt ]]; then
-  launch "$@"
+  if [[ $# -eq 1 && -d "$1" ]]; then
+    open_project "$1"
+  else
+    launch "$@"
+  fi
 fi
 
 command="${1:-launch}"
 [[ $# -eq 0 ]] || shift
 case "${command}" in
   launch) launch "$@" ;;
+  open) open_project "$@" ;;
   rendering) set_rendering "$@" ;;
   scale) set_scale "$@" ;;
   doctor) doctor ;;
   update) update_app ;;
   version|--version|-V) show_version ;;
-  *) die "usage: omarchy-codex [launch|rendering auto|wayland|xwayland|scale auto|NUMBER|doctor|update|version]" ;;
+  *) die "usage: omarchy-codex [launch|open [DIRECTORY]|rendering auto|wayland|xwayland|scale auto|NUMBER|doctor|update|version]" ;;
 esac

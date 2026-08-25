@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.4 — 2026-08-25
+
+- Make `chatgpt .` and `omarchy-codex open .` open the current repository in the graphical Work interface.
+- Extend the doctor with privacy-safe Secret Service, shortcut, and live Hyprland checks.
+- Record the physical Omarchy rendering and scale confirmation separately from unverified core workflows.
+
 ## 0.1.3 — 2026-08-25
 
 - Add persistent device-scale control for oversized native-Wayland windows.

@@ -47,6 +47,25 @@ if run_wrapper scale 0.25 >/dev/null 2>&1; then
 fi
 run_wrapper scale auto >/dev/null
 
+project_dir="${test_root}/project dir #1"
+mkdir -p "${project_dir}"
+XDG_SESSION_TYPE=x11 WAYLAND_DISPLAY='' run_wrapper open "${project_dir}"
+expected_path="$(realpath "${project_dir}")"
+expected_path="${expected_path//\//%2F}"
+expected_path="${expected_path// /%20}"
+expected_path="${expected_path//#/%23}"
+[[ "$(<"${args_log}")" == "codex://new?path=${expected_path}" ]]
+
+ln -s "${root}/omarchy-codex" "${test_root}/chatgpt"
+: >"${args_log}"
+XDG_SESSION_TYPE=x11 WAYLAND_DISPLAY='' \
+  HOME="${test_root}/home" \
+  XDG_CONFIG_HOME="${test_root}/config" \
+  OMARCHY_CODEX_APP_BINARY="${fake_app}" \
+  OMARCHY_CODEX_ARGS_LOG="${args_log}" \
+  "${test_root}/chatgpt" "${project_dir}"
+[[ "$(<"${args_log}")" == "codex://new?path=${expected_path}" ]]
+
 mkdir -p "${test_root}/config/omarchy-codex"
 printf 'wayland\n' >"${test_root}/config/omarchy-codex/rendering"
 run_launcher project

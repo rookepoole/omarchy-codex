@@ -14,6 +14,14 @@ cd omarchy-codex
 
 Then open **Codex** from Omarchy's Apps menu or press `Super + Shift + A`. Choose **Continue to sign in** and complete the ChatGPT browser login. No API key is created or required.
 
+To open the current repository directly in the same graphical app, choose **Work** mode and run:
+
+```bash
+chatgpt .
+```
+
+`omarchy-codex open .` is the explicit equivalent. Both use the app's project deep link; neither opens the terminal Codex interface.
+
 The first build downloads about 390 MB from OpenAI and installs about 1.3 GB. The downloaded `.deb` is checksum-verified by `makepkg` before packaging.
 
 ## What it changes
