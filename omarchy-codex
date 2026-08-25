@@ -6,7 +6,7 @@ CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME:-}/.config}"
 MODE_FILE="${CONFIG_HOME}/omarchy-codex/rendering"
 SOURCE_HOME="${XDG_DATA_HOME:-${HOME:-}/.local/share}/omarchy-codex/source"
 REPOSITORY="https://github.com/rookepoole/omarchy-codex.git"
-INTEGRATION_VERSION=0.1.0
+INTEGRATION_VERSION=0.1.1
 
 die() {
   printf 'omarchy-codex: %s\n' "$*" >&2

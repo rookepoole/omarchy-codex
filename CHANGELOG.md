@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1 — 2026-08-25
+
+- Fix the published ShellCheck gate by replacing an ambiguous conditional chain.
+- Bump the native package release so installed integration metadata updates correctly.
+
 ## 0.1.0 — 2026-08-25
 
 - Package OpenAI ChatGPT desktop app 26.818.61809 for x86_64 and ARM64 Omarchy systems.
