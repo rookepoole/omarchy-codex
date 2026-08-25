@@ -14,6 +14,7 @@ jobs:
       - run: tests/test-source.sh
       - run: tests/test-launcher.sh
       - run: tests/test-keybinding.sh
+      - run: tests/test-installed-package-detection.sh
       - run: tests/test-upstream.sh
       - run: tests/test-current-omarchy.sh
       - run: tests/test-release-bundle.sh

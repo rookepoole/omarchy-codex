@@ -32,3 +32,15 @@ omarchy-codex launch
 ```
 
 Use `omarchy-codex scale auto` to remove the effective override.
+
+## Update says its own ChatGPT executable is foreign
+
+Version 0.1.5 and earlier could misread an installed `omarchy-codex` package as
+absent when the package-list pipeline ended with `SIGPIPE`. The next guard then
+correctly found `/usr/bin/chatgpt`, but incorrectly treated it as foreign even when
+pacman reported that `omarchy-codex` owned it. Version 0.1.6 consumes the complete
+package list and recognizes the exact installed package reliably. Retry with:
+
+```bash
+omarchy-codex update
+```

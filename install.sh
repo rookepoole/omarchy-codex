@@ -3,7 +3,7 @@ set -euo pipefail
 
 REPOSITORY="https://github.com/rookepoole/omarchy-codex.git"
 SOURCE_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/omarchy-codex/source"
-PROJECT_VERSION=0.1.5
+PROJECT_VERSION=0.1.6
 
 die() {
   printf 'omarchy-codex install: %s\n' "$*" >&2
@@ -55,7 +55,13 @@ command -v pacman >/dev/null 2>&1 || die "pacman is required"
 command -v sudo >/dev/null 2>&1 || die "sudo is required"
 
 package_installed_exactly() {
-  pacman -Qq | grep -Fxq -- "$1"
+  # Consume pacman's complete output. A quiet grep exits at the first match,
+  # which can give pacman SIGPIPE and turn a true match into failure under
+  # `set -o pipefail` on systems with a large installed-package list.
+  pacman -Qq | awk -v expected="$1" '
+    $0 == expected { found = 1 }
+    END { exit !found }
+  '
 }
 
 if package_installed_exactly openai-codex-desktop; then

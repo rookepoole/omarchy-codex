@@ -21,6 +21,7 @@ jobs:
           tests/test-source.sh
           tests/test-launcher.sh
           tests/test-keybinding.sh
+          tests/test-installed-package-detection.sh
           tests/test-upstream.sh
           tests/test-current-omarchy.sh
           tests/test-release-bundle.sh

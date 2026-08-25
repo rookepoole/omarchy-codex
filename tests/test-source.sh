@@ -16,6 +16,7 @@ for script in \
   "${root}/tests/test-source.sh" \
   "${root}/tests/test-launcher.sh" \
   "${root}/tests/test-keybinding.sh" \
+  "${root}/tests/test-installed-package-detection.sh" \
   "${root}/tests/test-release-bundle.sh" \
   "${root}/tests/test-upstream.sh" \
   "${root}/tests/test-current-omarchy.sh"; do

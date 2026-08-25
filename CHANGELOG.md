@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.6 — 2026-08-25
+
+- Fix updates from older installations falsely reporting that their own `chatgpt` executable is a foreign installation.
+- Consume the complete pacman package list so `pipefail` cannot reinterpret an early successful match as a `SIGPIPE` failure.
+- Add a large-package-list regression test that distinguishes exact package names from virtual or similarly named packages.
+
 ## 0.1.5 — 2026-08-25
 
 - Publish a checksumed installer bundle without redistributing OpenAI's proprietary payload.
