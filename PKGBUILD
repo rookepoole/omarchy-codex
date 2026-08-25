@@ -1,8 +1,8 @@
 # Maintainer: Rooke Poole <rookepoole@users.noreply.github.com>
 
 pkgname=omarchy-codex
-pkgver=26.818.61809
-pkgrel=7
+pkgver=26.820.60940
+pkgrel=1
 pkgdesc="OpenAI's graphical ChatGPT desktop app with Codex, packaged for Omarchy"
 arch=('x86_64' 'aarch64')
 url="https://learn.chatgpt.com/docs/linux/linux-app"
@@ -64,11 +64,11 @@ source_aarch64=(
 )
 noextract=("${_deb_x86_64}" "${_deb_aarch64}")
 sha256sums=(
-  '6a6647d0a8adab1c07bc67e0c431a6890f0a0af80c121518f98df0249d6dd5b4'
+  '5220717f877f0ce19603cb2a2a81cc7cec90e49b11858f7c03843834a02da474'
   '274e5eaa174afd5b5bd61802f7cb5984f03dd7e3fb2f3760536e114ee706b022'
 )
-sha256sums_x86_64=('1bba62a6dbd2d49975c62850d8eddaad605da193557b194982225e56b1941891')
-sha256sums_aarch64=('a538eab08ff9cb50d8c83471d3b491dd3c44a79953a1f8a80ec54a2bdb25a13a')
+sha256sums_x86_64=('31d956a8c6c515f8d87e0b7acd9ec919f7e685ba59331b4b97aa45f853afdfd7')
+sha256sums_aarch64=('8f4dacbff5f054a4f69c2a021f1396c57976972829a61041febac1b423f27c86')
 
 package() {
   cd "${srcdir}"

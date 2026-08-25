@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.7 — 2026-08-25
+
+- Update the official OpenAI Linux app from 26.818.61809 to 26.820.60940.
+- Pin the published x86_64 and ARM64 packages to their OpenAI repository checksums.
+
 ## 0.1.6 — 2026-08-25
 
 - Fix updates from older installations falsely reporting that their own `chatgpt` executable is a foreign installation.

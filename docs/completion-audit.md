@@ -6,7 +6,7 @@ This audit separates reproducible evidence from behavior that still requires the
 
 | Requirement | Authoritative evidence | Status |
 | --- | --- | --- |
-| Correct graphical product boundary | Official Linux ChatGPT package `26.818.61809`; bundled Codex core; `Terminal=false`; no `/usr/bin/codex` replacement | Proven |
+| Correct graphical product boundary | Official Linux ChatGPT package `26.820.60940`; bundled Codex core; `Terminal=false`; no `/usr/bin/codex` replacement | Proven |
 | Safe Arch packaging | Versioned OpenAI pool URLs, x86_64/ARM64 SHA-256 pins, clean Arch build/install receipt, conflict and existing-app guards | Proven |
 | Omarchy launcher and desktop integration | Current `quattro` shortcut/helper contract test, managed `Super + Shift + A`, desktop entry validation | Proven in source and confirmed launching on the target machine |
 | Physical rendering | Native Wayland launch and device scale `1` confirmed on the target Omarchy machine | Proven |

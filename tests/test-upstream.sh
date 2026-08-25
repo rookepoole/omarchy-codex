@@ -15,6 +15,6 @@ check_arch() {
   grep -Fq "SHA256: ${expected_sha}" <<<"${packages}"
 }
 
-check_arch amd64 amd64 1bba62a6dbd2d49975c62850d8eddaad605da193557b194982225e56b1941891
-check_arch arm64 arm64 a538eab08ff9cb50d8c83471d3b491dd3c44a79953a1f8a80ec54a2bdb25a13a
+check_arch amd64 amd64 31d956a8c6c515f8d87e0b7acd9ec919f7e685ba59331b4b97aa45f853afdfd7
+check_arch arm64 arm64 8f4dacbff5f054a4f69c2a021f1396c57976972829a61041febac1b423f27c86
 printf 'PASS pinned artifacts match OpenAI repository metadata\n'
