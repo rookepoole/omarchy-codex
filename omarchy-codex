@@ -1,0 +1,126 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+APP_BINARY="${OMARCHY_CODEX_APP_BINARY:-/usr/lib/chatgpt/ChatGPT}"
+CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME:-}/.config}"
+MODE_FILE="${CONFIG_HOME}/omarchy-codex/rendering"
+SOURCE_HOME="${XDG_DATA_HOME:-${HOME:-}/.local/share}/omarchy-codex/source"
+REPOSITORY="https://github.com/rookepoole/omarchy-codex.git"
+INTEGRATION_VERSION=0.1.0
+
+die() {
+  printf 'omarchy-codex: %s\n' "$*" >&2
+  exit 1
+}
+
+rendering_mode() {
+  local mode=auto
+  if [[ -f "${MODE_FILE}" ]]; then
+    IFS= read -r mode <"${MODE_FILE}" || true
+  fi
+  case "${mode}" in
+    auto|wayland|xwayland) printf '%s\n' "${mode}" ;;
+    *) die "invalid rendering mode '${mode}' in ${MODE_FILE}" ;;
+  esac
+}
+
+launch() {
+  [[ -x "${APP_BINARY}" ]] || die "graphical app is not installed at ${APP_BINARY}"
+
+  local mode
+  local -a flags=()
+  mode="$(rendering_mode)"
+  case "${mode}" in
+    wayland) flags+=(--ozone-platform=wayland) ;;
+    xwayland) flags+=(--ozone-platform=x11) ;;
+  esac
+
+  exec "${APP_BINARY}" "${flags[@]}" "$@"
+}
+
+set_rendering() {
+  local mode="${1:-}"
+  case "${mode}" in
+    auto|wayland|xwayland) ;;
+    *) die "usage: omarchy-codex rendering auto|wayland|xwayland" ;;
+  esac
+  install -d -m 700 "$(dirname "${MODE_FILE}")"
+  printf '%s\n' "${mode}" >"${MODE_FILE}"
+  chmod 600 "${MODE_FILE}"
+  printf 'Rendering mode set to %s. Fully quit and reopen Codex.\n' "${mode}"
+}
+
+doctor() {
+  local failed=0
+  printf 'Omarchy Codex doctor\n'
+  if [[ -x "${APP_BINARY}" ]]; then
+    printf 'PASS graphical app: %s\n' "${APP_BINARY}"
+  else
+    printf 'FAIL graphical app missing: %s\n' "${APP_BINARY}"
+    failed=1
+  fi
+  if command -v omarchy-version >/dev/null 2>&1 || [[ -d /usr/share/omarchy ]]; then
+    printf 'PASS Omarchy detected\n'
+  else
+    printf 'WARN Omarchy was not detected (plain Arch is not the primary target)\n'
+  fi
+  if [[ -f /usr/share/applications/chatgpt.desktop ]]; then
+    printf 'PASS desktop launcher installed\n'
+  else
+    printf 'FAIL desktop launcher missing\n'
+    failed=1
+  fi
+  printf 'INFO rendering: %s\n' "$(rendering_mode)"
+  printf 'INFO authentication: ChatGPT browser sign-in; no API key is configured by this package\n'
+  if command -v ldd >/dev/null 2>&1 && [[ -x "${APP_BINARY}" ]]; then
+    if ldd "${APP_BINARY}" 2>/dev/null | grep -q 'not found'; then
+      printf 'FAIL shared library dependency missing\n'
+      ldd "${APP_BINARY}" | grep 'not found' || true
+      failed=1
+    else
+      printf 'PASS shared library dependencies resolved\n'
+    fi
+  fi
+  return "${failed}"
+}
+
+update_app() {
+  command -v git >/dev/null 2>&1 || die "git is required to update"
+  install -d -m 755 "$(dirname "${SOURCE_HOME}")"
+  if [[ -d "${SOURCE_HOME}/.git" ]]; then
+    git -C "${SOURCE_HOME}" pull --ff-only
+  elif [[ -e "${SOURCE_HOME}" ]]; then
+    die "${SOURCE_HOME} exists but is not an omarchy-codex checkout"
+  else
+    git clone --depth 1 "${REPOSITORY}" "${SOURCE_HOME}"
+  fi
+  exec "${SOURCE_HOME}/install.sh" --update
+}
+
+show_version() {
+  local package_version=unknown
+  local app_version=unknown
+  if command -v pacman >/dev/null 2>&1; then
+    package_version="$(pacman -Q omarchy-codex 2>/dev/null | awk '{print $2}' || true)"
+  fi
+  if [[ -f /usr/lib/chatgpt/resources/linux-package-metadata.json ]]; then
+    app_version="$(sed -n 's/.*"version"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' /usr/lib/chatgpt/resources/linux-package-metadata.json | head -1)"
+  fi
+  printf 'Omarchy integration: %s\nPacman package: %s\nOpenAI app: %s\n' \
+    "${INTEGRATION_VERSION}" "${package_version:-unknown}" "${app_version:-unknown}"
+}
+
+if [[ "$(basename "$0")" == chatgpt ]]; then
+  launch "$@"
+fi
+
+command="${1:-launch}"
+[[ $# -eq 0 ]] || shift
+case "${command}" in
+  launch) launch "$@" ;;
+  rendering) set_rendering "$@" ;;
+  doctor) doctor ;;
+  update) update_app ;;
+  version|--version|-V) show_version ;;
+  *) die "usage: omarchy-codex [launch|rendering auto|wayland|xwayland|doctor|update|version]" ;;
+esac

@@ -1,0 +1,17 @@
+name: test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y desktop-file-utils shellcheck
+      - run: chmod +x install.sh uninstall.sh omarchy-codex scripts/*.sh tests/*.sh
+      - run: tests/test-source.sh
+      - run: tests/test-launcher.sh
+      - run: tests/test-keybinding.sh
+      - run: tests/test-upstream.sh

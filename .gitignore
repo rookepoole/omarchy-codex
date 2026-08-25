@@ -1,0 +1,7 @@
+*.deb
+*.pkg.tar.*
+pkg/
+src/chatgpt_*.deb
+src/pkg/
+src/src/
+*.log

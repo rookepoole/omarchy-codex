@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Name=Codex
+Comment=OpenAI Codex for Omarchy
+GenericName=AI coding agent
+Exec=omarchy-codex launch %U
+Icon=chatgpt
+Terminal=false
+Type=Application
+StartupNotify=true
+StartupWMClass=ChatGPT
+Categories=Development;
+MimeType=x-scheme-handler/codex;
+Keywords=Codex;OpenAI;ChatGPT;AI;code;agent;
