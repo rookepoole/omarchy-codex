@@ -12,6 +12,8 @@ cd omarchy-codex
 ./install.sh
 ```
 
+Each GitHub release also includes a checksumed, payload-free installer bundle. It contains this integration code—not OpenAI's proprietary application—and downloads the pinned official package during installation.
+
 Then open **Codex** from Omarchy's Apps menu or press `Super + Shift + A`. Choose **Continue to sign in** and complete the ChatGPT browser login. No API key is created or required.
 
 To open the current repository directly in the same graphical app, choose **Work** mode and run:
@@ -88,5 +90,7 @@ OpenAI currently supports the Linux preview on Ubuntu, Debian, and Fedora—not 
 
 - [Official Linux app documentation](https://learn.chatgpt.com/docs/linux/linux-app)
 - [Open-source Codex core](https://github.com/openai/codex)
+- [Completion audit](docs/completion-audit.md)
+- [Core graphical workflow check](docs/core-workflow-check.md)
 
 The packaging and Omarchy integration code in this repository is MIT licensed. OpenAI's downloaded application remains under its own terms.

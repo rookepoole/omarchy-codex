@@ -3,7 +3,7 @@ set -euo pipefail
 
 REPOSITORY="https://github.com/rookepoole/omarchy-codex.git"
 SOURCE_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/omarchy-codex/source"
-PROJECT_VERSION=0.1.4
+PROJECT_VERSION=0.1.5
 
 die() {
   printf 'omarchy-codex install: %s\n' "$*" >&2

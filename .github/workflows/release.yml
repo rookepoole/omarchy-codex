@@ -1,0 +1,37 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y desktop-file-utils shellcheck
+      - run: chmod +x install.sh uninstall.sh omarchy-codex scripts/*.sh tests/*.sh
+      - name: Verify version and source
+        run: |
+          test "${GITHUB_REF_NAME}" = "v$(<VERSION)"
+          tests/test-source.sh
+          tests/test-launcher.sh
+          tests/test-keybinding.sh
+          tests/test-upstream.sh
+          tests/test-current-omarchy.sh
+          tests/test-release-bundle.sh
+      - name: Build payload-free installer bundle
+        run: scripts/build-release-bundle.sh dist
+      - name: Publish release and checksummed installer bundle
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if ! gh release view "${GITHUB_REF_NAME}" >/dev/null 2>&1; then
+            gh release create "${GITHUB_REF_NAME}" --verify-tag \
+              --title "Omarchy Codex ${GITHUB_REF_NAME}" --generate-notes
+          fi
+          gh release upload "${GITHUB_REF_NAME}" dist/* --clobber

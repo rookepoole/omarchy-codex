@@ -11,10 +11,12 @@ for script in \
   "${root}/install.sh" \
   "${root}/uninstall.sh" \
   "${root}/omarchy-codex" \
+  "${root}/scripts/build-release-bundle.sh" \
   "${root}/scripts/manage-keybinding.sh" \
   "${root}/tests/test-source.sh" \
   "${root}/tests/test-launcher.sh" \
   "${root}/tests/test-keybinding.sh" \
+  "${root}/tests/test-release-bundle.sh" \
   "${root}/tests/test-upstream.sh" \
   "${root}/tests/test-current-omarchy.sh"; do
   bash -n "${script}" || fail "bash syntax: ${script}"
@@ -35,6 +37,11 @@ grep -Fq 'a538eab08ff9cb50d8c83471d3b491dd3c44a79953a1f8a80ec54a2bdb25a13a' "${r
 grep -Fq 'Exec=omarchy-codex launch %U' "${root}/chatgpt.desktop" || fail 'graphical desktop entry'
 grep -Fq 'Terminal=false' "${root}/chatgpt.desktop" || fail 'desktop entry must not open a terminal'
 grep -Fq 'existing ChatGPT installation detected' "${root}/install.sh" || fail 'existing-app replacement guard'
+# Match the literal PKGBUILD package-directory expression.
+# shellcheck disable=SC2016
+if grep -Fq '"${pkgdir}/usr/bin/codex"' "${root}/PKGBUILD"; then
+  fail 'package must not replace Omarchy Codex CLI'
+fi
 wrapper_sha="$(sha256sum "${root}/omarchy-codex" | awk '{print $1}')"
 desktop_sha="$(sha256sum "${root}/chatgpt.desktop" | awk '{print $1}')"
 grep -Fq "'${wrapper_sha}'" "${root}/PKGBUILD" || fail 'launcher checksum does not match PKGBUILD'

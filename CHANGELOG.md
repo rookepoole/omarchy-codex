@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.5 — 2026-08-25
+
+- Publish a checksumed installer bundle without redistributing OpenAI's proprietary payload.
+- Gate release publication on the source, launcher, keybinding, upstream package, and current Omarchy tests.
+- Protect Omarchy's existing `/usr/bin/codex` usage collector integration from package collisions.
+- Add a requirement-by-requirement completion audit.
+
 ## 0.1.4 — 2026-08-25
 
 - Make `chatgpt .` and `omarchy-codex open .` open the current repository in the graphical Work interface.
