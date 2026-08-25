@@ -12,7 +12,9 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
       - run: sudo apt-get update && sudo apt-get install -y desktop-file-utils shellcheck
       - run: chmod +x install.sh uninstall.sh omarchy-codex scripts/*.sh tests/*.sh
       - name: Verify version and source

@@ -64,6 +64,63 @@ if find "${root}" -type f \( -name '*.deb' -o -name '*.pkg.tar.*' \) -print -qui
   fail 'proprietary package payload present in source tree'
 fi
 
+checkout_sha='11d5960a326750d5838078e36cf38b85af677262'
+check_checkout_workflow() {
+  local workflow="$1"
+  awk -v expected="actions/checkout@${checkout_sha}" '
+    function finish_checkout() {
+      if (in_checkout && !credentials_disabled) {
+        invalid = 1
+      }
+      in_checkout = 0
+    }
+    function indentation(line) {
+      match(line, /[^ ]/)
+      return RSTART ? RSTART - 1 : length(line)
+    }
+    /^[[:space:]]*-[[:space:]]+uses:[[:space:]]+actions\/checkout@/ {
+      finish_checkout()
+      in_checkout = 1
+      credentials_disabled = 0
+      checkout_indent = indentation($0)
+      reference = $0
+      sub(/^[[:space:]]*-[[:space:]]+uses:[[:space:]]+/, "", reference)
+      sub(/[[:space:]]+#.*$/, "", reference)
+      if (reference != expected) {
+        invalid = 1
+      }
+      checkout_count++
+      next
+    }
+    in_checkout &&
+      /^[[:space:]]*-[[:space:]]+/ &&
+      indentation($0) <= checkout_indent {
+      finish_checkout()
+    }
+    in_checkout &&
+      /^[[:space:]]+persist-credentials:[[:space:]]*false([[:space:]]*(#.*)?)?$/ {
+      credentials_disabled = 1
+    }
+    END {
+      finish_checkout()
+      if (invalid || checkout_count != 1) {
+        exit 1
+      }
+    }
+  ' "${workflow}" || fail "unsafe checkout action in ${workflow}"
+}
+for workflow in \
+  "${root}/.github/workflows/release.yml" \
+  "${root}/.github/workflows/test.yml"; do
+  check_checkout_workflow "${workflow}"
+done
+grep -A1 '^permissions:$' "${root}/.github/workflows/test.yml" |
+  grep -Fq 'contents: read' || fail 'test workflow token is not read-only'
+if grep -Eq '^[[:space:]]*permissions:[[:space:]]*write-all|^[[:space:]]+[a-z-]+:[[:space:]]*write([[:space:]]*(#.*)?)?$' \
+  "${root}/.github/workflows/test.yml"; then
+  fail 'test workflow grants write permission'
+fi
+
 if command -v desktop-file-validate >/dev/null 2>&1; then
   desktop-file-validate "${root}/chatgpt.desktop" || fail 'desktop entry validation'
 fi
