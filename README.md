@@ -30,19 +30,15 @@ The first build downloads about 390 MB from OpenAI and installs about 1.3 GB. Th
 
 Omarchy Quattro users can add the companion bar panel after installing the app:
 
-```bash
-omarchy plugin add https://github.com/rookepoole/omarchy-codex.git --enable
-```
+1. Open **Setup → Plugins → Add**.
+2. Paste `https://github.com/rookepoole/omarchy-codex`.
+3. Confirm the repository, enable **Omarchy Codex**, and choose its bar position.
 
 The panel shows the installed integration, pacman package, and OpenAI app versions. It provides explicit actions to launch Codex, open the updater, run diagnostics, or read the documentation. The panel depends on Omarchy Quattro's shell plugin API and the separately installed `omarchy-codex` command.
 
 Like every Omarchy shell plugin, it runs unsandboxed with your user permissions. Its QML source only checks `omarchy-codex version` and starts an action after you explicitly choose it.
 
-Removing the panel does not uninstall the app, change its settings, touch ChatGPT authentication, or remove the existing shortcut:
-
-```bash
-omarchy plugin remove io.github.rookepoole.omarchy-codex
-```
+Removing the panel does not uninstall the app, change its settings, touch ChatGPT authentication, or remove the existing shortcut. Use **Setup → Plugins → Remove** and choose **Omarchy Codex**.
 
 ## What it changes
 
