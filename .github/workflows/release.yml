@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - run: sudo apt-get update && sudo apt-get install -y desktop-file-utils shellcheck
+      - run: sudo apt-get update && sudo apt-get install -y desktop-file-utils jq shellcheck
       - run: chmod +x install.sh uninstall.sh omarchy-codex scripts/*.sh tests/*.sh
       - name: Verify version and source
         run: |
@@ -24,6 +24,7 @@ jobs:
           tests/test-launcher.sh
           tests/test-keybinding.sh
           tests/test-installed-package-detection.sh
+          tests/test-plugin.sh
           tests/test-upstream.sh
           tests/test-current-omarchy.sh
           tests/test-release-bundle.sh

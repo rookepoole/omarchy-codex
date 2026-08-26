@@ -14,12 +14,13 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - run: sudo apt-get update && sudo apt-get install -y desktop-file-utils shellcheck
+      - run: sudo apt-get update && sudo apt-get install -y desktop-file-utils jq shellcheck
       - run: chmod +x install.sh uninstall.sh omarchy-codex scripts/*.sh tests/*.sh
       - run: tests/test-source.sh
       - run: tests/test-launcher.sh
       - run: tests/test-keybinding.sh
       - run: tests/test-installed-package-detection.sh
+      - run: tests/test-plugin.sh
       - run: tests/test-upstream.sh
       - run: tests/test-current-omarchy.sh
       - run: tests/test-release-bundle.sh

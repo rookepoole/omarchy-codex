@@ -17,11 +17,15 @@ for script in \
   "${root}/tests/test-launcher.sh" \
   "${root}/tests/test-keybinding.sh" \
   "${root}/tests/test-installed-package-detection.sh" \
+  "${root}/tests/test-plugin.sh" \
   "${root}/tests/test-release-bundle.sh" \
   "${root}/tests/test-upstream.sh" \
   "${root}/tests/test-current-omarchy.sh"; do
   bash -n "${script}" || fail "bash syntax: ${script}"
 done
+
+[[ "$(<"${root}/VERSION")" == "$(jq -r '.version' "${root}/manifest.json")" ]] ||
+  fail 'project and plugin versions differ'
 
 grep -Fq 'pkgver=26.820.60940' "${root}/PKGBUILD" || fail 'pinned OpenAI app version'
 # These assertions intentionally match literal PKGBUILD variable references.
@@ -48,7 +52,7 @@ desktop_sha="$(sha256sum "${root}/chatgpt.desktop" | awk '{print $1}')"
 grep -Fq "'${wrapper_sha}'" "${root}/PKGBUILD" || fail 'launcher checksum does not match PKGBUILD'
 grep -Fq "'${desktop_sha}'" "${root}/PKGBUILD" || fail 'desktop-entry checksum does not match PKGBUILD'
 
-if grep -RniE --exclude='test-source.sh' \
+if grep -RniE --exclude='test-source.sh' --exclude='test-plugin.sh' \
   '(OPENAI_API_KEY|--with-api-key|api_key[[:space:]]*=)' "${root}"; then
   fail 'runtime source contains an API-key path'
 fi

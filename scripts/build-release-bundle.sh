@@ -19,8 +19,8 @@ trap 'rm -rf -- "${staging}"' EXIT
 bundle="${staging}/${name}"
 
 for file in \
-  APP_VERSION CHANGELOG.md LICENSE PKGBUILD README.md SECURITY.md VERSION \
-  chatgpt.desktop; do
+  APP_VERSION CHANGELOG.md CodexPanel.qml LICENSE manifest.json PKGBUILD \
+  README.md SECURITY.md VERSION chatgpt.desktop; do
   install -Dm644 "${root}/${file}" "${bundle}/${file}"
 done
 for file in install.sh omarchy-codex uninstall.sh scripts/manage-keybinding.sh; do

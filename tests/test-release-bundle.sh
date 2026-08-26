@@ -23,5 +23,7 @@ tar -xzf "${test_root}/dist/${name}.tar.gz" -C "${test_root}"
 [[ -x "${test_root}/${name}/install.sh" ]]
 [[ -x "${test_root}/${name}/omarchy-codex" ]]
 [[ -x "${test_root}/${name}/scripts/manage-keybinding.sh" ]]
+[[ -f "${test_root}/${name}/manifest.json" ]]
+[[ -f "${test_root}/${name}/CodexPanel.qml" ]]
 [[ -f "${test_root}/${name}/docs/core-workflow-check.md" ]]
 printf 'PASS payload-free release bundle and checksum\n'

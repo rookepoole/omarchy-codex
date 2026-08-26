@@ -28,4 +28,8 @@ if grep -Fq '"${pkgdir}/usr/bin/codex"' "${root}/PKGBUILD"; then
   printf 'FAIL graphical package would replace Omarchy Codex CLI\n' >&2
   exit 1
 fi
+# A Windows checkout may give the cached upstream script CRLF endings. Feeding
+# a normalized stream to bash keeps this cross-platform test equivalent to the
+# native-Linux invocation used by Omarchy and CI.
+sed 's/\r$//' "${omarchy}/bin/omarchy-plugin-validate" | bash -s -- "${root}"
 printf 'PASS integration matches current Omarchy keybinding contract\n'

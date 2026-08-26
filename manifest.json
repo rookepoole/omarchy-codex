@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "io.github.rookepoole.omarchy-codex",
+  "name": "Omarchy Codex",
+  "version": "0.1.8",
+  "author": "Rooke Poole",
+  "license": "MIT",
+  "homepage": "https://github.com/rookepoole/omarchy-codex",
+  "description": "Launch, update, and diagnose the graphical OpenAI Codex app from the Omarchy bar.",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "CodexPanel.qml"
+  },
+  "barWidget": {
+    "displayName": "Codex",
+    "description": "Graphical Codex launcher and installation status panel.",
+    "category": "AI",
+    "allowMultiple": false,
+    "defaultSection": "right"
+  }
+}

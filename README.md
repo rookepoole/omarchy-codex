@@ -26,6 +26,24 @@ chatgpt .
 
 The first build downloads about 390 MB from OpenAI and installs about 1.3 GB. The downloaded `.deb` is checksum-verified by `makepkg` before packaging.
 
+## Optional Omarchy panel
+
+Omarchy Quattro users can add the companion bar panel after installing the app:
+
+```bash
+omarchy plugin add https://github.com/rookepoole/omarchy-codex.git --enable
+```
+
+The panel shows the installed integration, pacman package, and OpenAI app versions. It provides explicit actions to launch Codex, open the updater, run diagnostics, or read the documentation. The panel depends on Omarchy Quattro's shell plugin API and the separately installed `omarchy-codex` command.
+
+Like every Omarchy shell plugin, it runs unsandboxed with your user permissions. Its QML source only checks `omarchy-codex version` and starts an action after you explicitly choose it.
+
+Removing the panel does not uninstall the app, change its settings, touch ChatGPT authentication, or remove the existing shortcut:
+
+```bash
+omarchy plugin remove io.github.rookepoole.omarchy-codex
+```
+
 ## What it changes
 
 - Installs OpenAI's graphical app as the pacman package `omarchy-codex`.
@@ -83,6 +101,8 @@ Uninstall while preserving sign-in data:
 ```bash
 ./uninstall.sh
 ```
+
+The app uninstaller does not remove the optional Quattro panel. Remove each component with its own command when you want both gone.
 
 ## Support boundary
 

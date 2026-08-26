@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.8 — 2026-08-26
+
+- Add an optional Omarchy Quattro bar panel for launching, updating, and diagnosing the graphical Codex app.
+- Add a marketplace-ready plugin manifest with a permanent namespaced identifier.
+- Keep plugin lifecycle separate from application installation, configuration, authentication, and removal.
+
 ## 0.1.7 — 2026-08-25
 
 - Update the official OpenAI Linux app from 26.818.61809 to 26.820.60940.
