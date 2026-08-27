@@ -13,9 +13,9 @@ This audit separates reproducible evidence from behavior that still requires the
 | Physical rendering | Native Wayland launch and device scale `1` confirmed on the target Omarchy machine | Proven |
 | Terminal-to-graphical project opening | `chatgpt .` deep-link encoding tests | Implemented; target-machine Work-mode result pending |
 | Secure authentication boundary | Official browser OAuth only; no API-key path; auth files untouched; Omarchy provides GNOME Keyring and libsecret | Implemented; target-machine login and restart persistence pending |
-| Update behavior | Repeat install/container upgrade checks and physical update through 0.1.3 | Proven through 0.1.3; latest release update pending |
+| Update behavior | Panel opens reviewed releases without downloading or executing source; installer accepts only an existing checkout or checksummed bundle | Proven in source for 0.1.9; next physical install pending |
 | Uninstall behavior | End-to-end uninstall removes the package/managed shortcut and preserves auth/configuration | Proven in contained Arch test |
-| Versioned source and installer artifact | Git tag/release plus checksumed payload-free installer bundle; OpenAI payload remains downloaded and verified locally | Proven for v0.1.8 |
+| Versioned source and installer artifact | Git tag/release plus checksumed payload-free installer bundle; OpenAI payload remains downloaded and verified locally | Proven for v0.1.8; v0.1.9 pending publication |
 | Installation and maintenance documentation | README, security boundary, known issues, verification receipts, core workflow check | Proven |
 | End-to-end Codex work | Browser sign-in, repository open, file task, task persistence after restart | Not yet proven on the target machine |
 

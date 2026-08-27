@@ -2,11 +2,11 @@
   "schemaVersion": 1,
   "id": "io.github.rookepoole.omarchy-codex",
   "name": "Omarchy Codex",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "author": "Rooke Poole",
   "license": "MIT",
   "homepage": "https://github.com/rookepoole/omarchy-codex",
-  "description": "Launch, update, and diagnose the graphical OpenAI Codex app from the Omarchy bar.",
+  "description": "Launch and diagnose graphical OpenAI Codex, or review its releases, from the Omarchy bar.",
   "kinds": [
     "bar-widget"
   ],

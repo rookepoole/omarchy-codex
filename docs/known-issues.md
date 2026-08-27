@@ -39,8 +39,13 @@ Version 0.1.5 and earlier could misread an installed `omarchy-codex` package as
 absent when the package-list pipeline ended with `SIGPIPE`. The next guard then
 correctly found `/usr/bin/chatgpt`, but incorrectly treated it as foreign even when
 pacman reported that `omarchy-codex` owned it. Version 0.1.6 consumes the complete
-package list and recognizes the exact installed package reliably. Retry with:
+package list and recognizes the exact installed package reliably. Review the
+current release before reinstalling with:
 
 ```bash
 omarchy-codex update
 ```
+
+Version 0.1.9 and later intentionally open the releases page instead of pulling
+and executing a mutable branch. Install only from an exact reviewed checkout or
+the release's checksummed bundle.

@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPOSITORY="https://github.com/rookepoole/omarchy-codex.git"
-SOURCE_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/omarchy-codex/source"
-PROJECT_VERSION=0.1.8
+PROJECT_VERSION=0.1.9
 
 die() {
   printf 'omarchy-codex install: %s\n' "$*" >&2
@@ -24,16 +22,7 @@ resolve_source() {
     return
   fi
 
-  command -v git >/dev/null 2>&1 || die "git is required for the bootstrap install"
-  install -d -m 755 "$(dirname "${SOURCE_HOME}")"
-  if [[ -d "${SOURCE_HOME}/.git" ]]; then
-    git -C "${SOURCE_HOME}" pull --ff-only >&2
-  elif [[ -e "${SOURCE_HOME}" ]]; then
-    die "${SOURCE_HOME} exists but is not an omarchy-codex checkout"
-  else
-    git clone --depth 1 "${REPOSITORY}" "${SOURCE_HOME}"
-  fi
-  printf '%s\n' "${SOURCE_HOME}"
+  die "run install.sh from a project checkout or checksummed release bundle"
 }
 
 [[ ${EUID} -ne 0 ]] || die "run this as your normal Omarchy user, not root"

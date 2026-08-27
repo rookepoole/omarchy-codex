@@ -34,7 +34,7 @@ Omarchy Quattro users can add the companion bar panel after installing the app:
 2. Paste `https://github.com/rookepoole/omarchy-codex`.
 3. Confirm the repository, enable **Omarchy Codex**, and choose its bar position.
 
-The panel shows the installed integration, pacman package, and OpenAI app versions. It provides explicit actions to launch Codex, open the updater, run diagnostics, or read the documentation. The panel depends on Omarchy Quattro's shell plugin API and the separately installed `omarchy-codex` command.
+The panel shows the installed integration, pacman package, and OpenAI app versions. It provides explicit actions to launch Codex, review available releases, run diagnostics, or read the documentation. The panel depends on Omarchy Quattro's shell plugin API and the separately installed `omarchy-codex` command.
 
 Like every Omarchy shell plugin, it runs unsandboxed with your user permissions. Its QML source only checks `omarchy-codex version` and starts an action after you explicitly choose it.
 
@@ -57,6 +57,11 @@ omarchy-codex update
 omarchy-codex doctor
 omarchy-codex version
 ```
+
+`omarchy-codex update` opens the GitHub releases page for review. It deliberately
+does not pull a mutable branch, download source, or run an installer. To install a
+release, obtain its checksummed bundle or check out the exact full commit shown by
+the marketplace/release review, then run `./install.sh` from that local source.
 
 Force native Wayland explicitly with:
 

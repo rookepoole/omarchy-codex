@@ -18,6 +18,7 @@ for script in \
   "${root}/tests/test-keybinding.sh" \
   "${root}/tests/test-installed-package-detection.sh" \
   "${root}/tests/test-plugin.sh" \
+  "${root}/tests/test-update-safety.sh" \
   "${root}/tests/test-release-bundle.sh" \
   "${root}/tests/test-upstream.sh" \
   "${root}/tests/test-current-omarchy.sh"; do

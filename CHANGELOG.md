@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.9 — 2026-08-26
+
+- Remove the mutable Git pull/clone-and-execute updater rejected by marketplace review.
+- Make the panel's update action open the release review page without downloading or executing code.
+- Require installation to start from an existing checkout or checksummed release bundle.
+- Add a regression gate that prevents remote source execution from returning to the update surface.
+
 ## 0.1.8 — 2026-08-26
 
 - Add an optional Omarchy Quattro bar panel for launching, updating, and diagnosing the graphical Codex app.

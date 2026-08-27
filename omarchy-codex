@@ -5,9 +5,8 @@ APP_BINARY="${OMARCHY_CODEX_APP_BINARY:-/usr/lib/chatgpt/ChatGPT}"
 CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME:-}/.config}"
 MODE_FILE="${CONFIG_HOME}/omarchy-codex/rendering"
 SCALE_FILE="${CONFIG_HOME}/omarchy-codex/scale"
-SOURCE_HOME="${XDG_DATA_HOME:-${HOME:-}/.local/share}/omarchy-codex/source"
-REPOSITORY="https://github.com/rookepoole/omarchy-codex.git"
-INTEGRATION_VERSION=0.1.8
+RELEASES_URL="https://github.com/rookepoole/omarchy-codex/releases"
+INTEGRATION_VERSION=0.1.9
 
 die() {
   printf 'omarchy-codex: %s\n' "$*" >&2
@@ -178,17 +177,11 @@ doctor() {
   return "${failed}"
 }
 
-update_app() {
-  command -v git >/dev/null 2>&1 || die "git is required to update"
-  install -d -m 755 "$(dirname "${SOURCE_HOME}")"
-  if [[ -d "${SOURCE_HOME}/.git" ]]; then
-    git -C "${SOURCE_HOME}" pull --ff-only
-  elif [[ -e "${SOURCE_HOME}" ]]; then
-    die "${SOURCE_HOME} exists but is not an omarchy-codex checkout"
-  else
-    git clone --depth 1 "${REPOSITORY}" "${SOURCE_HOME}"
-  fi
-  exec "${SOURCE_HOME}/install.sh" --update
+review_updates() {
+  [[ $# -eq 0 ]] || die "usage: omarchy-codex update"
+  command -v xdg-open >/dev/null 2>&1 || die "xdg-open is required to review releases"
+  printf 'Opening reviewed Omarchy Codex releases. No code will be downloaded or executed.\n'
+  exec xdg-open "${RELEASES_URL}"
 }
 
 show_version() {
@@ -220,7 +213,7 @@ case "${command}" in
   rendering) set_rendering "$@" ;;
   scale) set_scale "$@" ;;
   doctor) doctor ;;
-  update) update_app ;;
+  update) review_updates "$@" ;;
   version|--version|-V) show_version ;;
   *) die "usage: omarchy-codex [launch|open [DIRECTORY]|rendering auto|wayland|xwayland|scale auto|NUMBER|doctor|update|version]" ;;
 esac

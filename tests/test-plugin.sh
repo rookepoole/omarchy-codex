@@ -13,7 +13,7 @@ fail() {
 jq -e '
   .schemaVersion == 1 and
   .id == "io.github.rookepoole.omarchy-codex" and
-  .version == "0.1.8" and
+  .version == "0.1.9" and
   .kinds == ["bar-widget"] and
   .entryPoints.barWidget == "CodexPanel.qml" and
   .barWidget.allowMultiple == false and
@@ -24,7 +24,8 @@ jq -e '
 grep -Fq 'moduleName: "io.github.rookepoole.omarchy-codex"' "${qml}" || fail 'plugin module id'
 grep -Fq 'command -v omarchy-codex' "${qml}" || fail 'non-invasive installed-app detection'
 grep -Fq 'bar.run("omarchy-codex launch")' "${qml}" || fail 'graphical app launch action'
-grep -Fq 'omarchy-codex update' "${qml}" || fail 'explicit update action'
+grep -Fq 'label: "Review available updates"' "${qml}" || fail 'safe release-review action label'
+grep -Fq 'bar.run("omarchy-codex update")' "${qml}" || fail 'safe release-review action'
 grep -Fq 'omarchy-codex doctor' "${qml}" || fail 'diagnostic action'
 
 if grep -nE '(sudo|pacman|makepkg|install[.]sh|uninstall[.]sh|rm[[:space:]])' "${qml}"; then

@@ -21,6 +21,7 @@ jobs:
       - run: tests/test-keybinding.sh
       - run: tests/test-installed-package-detection.sh
       - run: tests/test-plugin.sh
+      - run: tests/test-update-safety.sh
       - run: tests/test-upstream.sh
       - run: tests/test-current-omarchy.sh
       - run: tests/test-release-bundle.sh

@@ -26,7 +26,7 @@ Panel {
 
   readonly property var actions: installed ? [
     { key: "launch", icon: "󰚩", label: "Launch graphical Codex" },
-    { key: "update", icon: "󰑐", label: "Update Omarchy Codex" },
+    { key: "update", icon: "󰑐", label: "Review available updates" },
     { key: "doctor", icon: "󰒓", label: "Run diagnostics" },
     { key: "docs", icon: "󰈙", label: "Open documentation" }
   ] : [
@@ -74,7 +74,7 @@ Panel {
         close()
         break
       case "update":
-        bar.run("omarchy-launch-floating-terminal-with-presentation omarchy-codex update")
+        bar.run("omarchy-codex update")
         close()
         break
       case "doctor":
