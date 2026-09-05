@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-PROJECT_VERSION=0.1.9
+PROJECT_VERSION=0.1.10
 
 die() {
   printf 'omarchy-codex install: %s\n' "$*" >&2

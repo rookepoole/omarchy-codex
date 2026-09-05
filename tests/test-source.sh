@@ -28,7 +28,7 @@ done
 [[ "$(<"${root}/VERSION")" == "$(jq -r '.version' "${root}/manifest.json")" ]] ||
   fail 'project and plugin versions differ'
 
-grep -Fq 'pkgver=26.820.60940' "${root}/PKGBUILD" || fail 'pinned OpenAI app version'
+grep -Fq 'pkgver=26.901.41600' "${root}/PKGBUILD" || fail 'pinned OpenAI app version'
 # These assertions intentionally match literal PKGBUILD variable references.
 # shellcheck disable=SC2016
 grep -Fq 'chatgpt_${pkgver}_amd64.deb' "${root}/PKGBUILD" || fail 'versioned x86_64 source'
@@ -38,8 +38,8 @@ grep -Fq 'chatgpt_${pkgver}_arm64.deb' "${root}/PKGBUILD" || fail 'versioned ARM
 grep -Fq '/pool/main/c/chatgpt/chatgpt_${pkgver}_amd64.deb' "${root}/PKGBUILD" || fail 'pinned x86_64 pool URL'
 # shellcheck disable=SC2016
 grep -Fq '/pool/main/c/chatgpt/chatgpt_${pkgver}_arm64.deb' "${root}/PKGBUILD" || fail 'pinned ARM64 pool URL'
-grep -Fq '31d956a8c6c515f8d87e0b7acd9ec919f7e685ba59331b4b97aa45f853afdfd7' "${root}/PKGBUILD" || fail 'x86_64 checksum'
-grep -Fq '8f4dacbff5f054a4f69c2a021f1396c57976972829a61041febac1b423f27c86' "${root}/PKGBUILD" || fail 'ARM64 checksum'
+grep -Fq '15cf422a77e8f28a7553d3180b8c72784a994438a141784c82d72cde93efca77' "${root}/PKGBUILD" || fail 'x86_64 checksum'
+grep -Fq '8d5141b299ca593255fa25760895e84375937cc305197528c822dfa71ac2a3bf' "${root}/PKGBUILD" || fail 'ARM64 checksum'
 grep -Fq 'Exec=omarchy-codex launch %U' "${root}/chatgpt.desktop" || fail 'graphical desktop entry'
 grep -Fq 'Terminal=false' "${root}/chatgpt.desktop" || fail 'desktop entry must not open a terminal'
 grep -Fq 'existing ChatGPT installation detected' "${root}/install.sh" || fail 'existing-app replacement guard'

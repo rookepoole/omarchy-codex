@@ -13,7 +13,7 @@ fail() {
 jq -e '
   .schemaVersion == 1 and
   .id == "io.github.rookepoole.omarchy-codex" and
-  .version == "0.1.9" and
+  .version == "0.1.10" and
   .kinds == ["bar-widget"] and
   .entryPoints.barWidget == "CodexPanel.qml" and
   .barWidget.allowMultiple == false and

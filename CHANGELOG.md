@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.10 — 2026-09-04
+
+- Update the official OpenAI Linux app from 26.820.60940 to 26.901.41600.
+- Pin the new x86_64 and ARM64 packages to the SHA-256 checksums published in OpenAI's repository metadata.
+- Preserve the marketplace-reviewed release-page update flow without downloading or executing mutable source.
+
 ## 0.1.9 — 2026-08-26
 
 - Remove the mutable Git pull/clone-and-execute updater rejected by marketplace review.

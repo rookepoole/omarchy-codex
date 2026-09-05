@@ -6,7 +6,7 @@ CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME:-}/.config}"
 MODE_FILE="${CONFIG_HOME}/omarchy-codex/rendering"
 SCALE_FILE="${CONFIG_HOME}/omarchy-codex/scale"
 RELEASES_URL="https://github.com/rookepoole/omarchy-codex/releases"
-INTEGRATION_VERSION=0.1.9
+INTEGRATION_VERSION=0.1.10
 
 die() {
   printf 'omarchy-codex: %s\n' "$*" >&2
