@@ -26,6 +26,26 @@ chatgpt .
 
 The first build downloads about 390 MB from OpenAI and installs about 1.3 GB. The downloaded `.deb` is checksum-verified by `makepkg` before packaging.
 
+## Update an existing installation
+
+`omarchy-codex update` does **not** install updates. It only opens the releases
+page so you can review the new version. To update to the current release, run:
+
+```bash
+mkdir -p ~/Downloads/omarchy-codex-0.1.10-update
+cd ~/Downloads/omarchy-codex-0.1.10-update
+curl -fLO https://github.com/rookepoole/omarchy-codex/releases/download/v0.1.10/omarchy-codex-0.1.10.tar.gz
+curl -fLO https://github.com/rookepoole/omarchy-codex/releases/download/v0.1.10/omarchy-codex-0.1.10.tar.gz.sha256
+sha256sum -c omarchy-codex-0.1.10.tar.gz.sha256
+tar -xzf omarchy-codex-0.1.10.tar.gz
+cd omarchy-codex-0.1.10
+./install.sh
+reboot
+```
+
+The checksum command must report `OK` before you run the installer. Updating
+preserves the ChatGPT login, Codex settings, and optional Omarchy panel.
+
 ## Optional Omarchy panel
 
 Omarchy Quattro users can add the companion bar panel after installing the app:
@@ -50,18 +70,12 @@ Removing the panel does not uninstall the app, change its settings, touch ChatGP
 
 It does **not** install Codex CLI, request an API key, modify `~/.codex/auth.json`, or commit/redistribute OpenAI's application binary.
 
-## Maintenance
+## Diagnostics and rendering
 
 ```bash
-omarchy-codex update
 omarchy-codex doctor
 omarchy-codex version
 ```
-
-`omarchy-codex update` opens the GitHub releases page for review. It deliberately
-does not pull a mutable branch, download source, or run an installer. To install a
-release, obtain its checksummed bundle or check out the exact full commit shown by
-the marketplace/release review, then run `./install.sh` from that local source.
 
 Force native Wayland explicitly with:
 
